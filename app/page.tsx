@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import confetti from "canvas-confetti";
+import { supabase } from "../lib/supabase";
 
 type Personality = "Sweet Enthusiast" | "Zen Minimalist" | "Health Nut" | "Indulgent Treat";
 
@@ -74,14 +75,31 @@ const coffeeMap: Record<Personality, { drink: string; tagline: string; emoji: st
 const personalityOrder: Personality[] = ["Sweet Enthusiast", "Zen Minimalist", "Health Nut", "Indulgent Treat"];
 
 export default function Home() {
-  const [screen, setScreen] = useState<"welcome" | "quiz" | "results">("welcome");
+  const [screen, setScreen] = useState<"welcome" | "quiz" | "name" | "results">("welcome");
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<Personality[]>([]);
   const [selected, setSelected] = useState<Personality | null>(null);
+  const [name, setName] = useState("");
+  const [saving, setSaving] = useState(false);
 
   const handleStart = () => setScreen("quiz");
 
   const handleSelect = (personality: Personality) => setSelected(personality);
+
+  const getResults = () => {
+    const counts: Record<Personality, number> = {
+      "Sweet Enthusiast": 0,
+      "Zen Minimalist": 0,
+      "Health Nut": 0,
+      "Indulgent Treat": 0,
+    };
+    answers.forEach((a) => counts[a]++);
+    return personalityOrder
+      .map((p) => ({ personality: p, count: counts[p], pct: Math.round((counts[p] / answers.length) * 100) }))
+      .sort((a, b) => b.count - a.count);
+  };
+
+  const topPersonality = () => getResults()[0].personality;
 
   useEffect(() => {
     if (screen === "results") {
@@ -102,10 +120,19 @@ export default function Home() {
     setAnswers(newAnswers);
     setSelected(null);
     if (currentQuestion + 1 >= questions.length) {
-      setScreen("results");
+      setScreen("name");
     } else {
       setCurrentQuestion(currentQuestion + 1);
     }
+  };
+
+  const handleSaveName = async () => {
+    if (!name.trim()) return;
+    setSaving(true);
+    const personality = topPersonality();
+    await supabase.from("results").insert({ name: name.trim(), personality });
+    setSaving(false);
+    setScreen("results");
   };
 
   const handleRetake = () => {
@@ -113,19 +140,7 @@ export default function Home() {
     setCurrentQuestion(0);
     setAnswers([]);
     setSelected(null);
-  };
-
-  const getResults = () => {
-    const counts: Record<Personality, number> = {
-      "Sweet Enthusiast": 0,
-      "Zen Minimalist": 0,
-      "Health Nut": 0,
-      "Indulgent Treat": 0,
-    };
-    answers.forEach((a) => counts[a]++);
-    return personalityOrder
-      .map((p) => ({ personality: p, count: counts[p], pct: Math.round((counts[p] / answers.length) * 100) }))
-      .sort((a, b) => b.count - a.count);
+    setName("");
   };
 
   const accent = "#c4845a";
@@ -181,7 +196,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Progress bar */}
           <div style={{ height: "4px", background: "#f0e4d8", borderRadius: "4px", marginBottom: "32px" }}>
             <div
               style={{
@@ -251,6 +265,70 @@ export default function Home() {
         </div>
       )}
 
+      {screen === "name" && (
+        <div style={cardStyle}>
+          <div style={headerStyle}>☕ Basecamp Coffee</div>
+          <h2 style={{ fontFamily: "Georgia, serif", fontSize: "26px", color: "#4a3728", marginBottom: "12px" }}>
+            One last thing...
+          </h2>
+          <p style={{ color: "#7a5c44", fontSize: "16px", marginBottom: "28px", lineHeight: 1.6, fontFamily: "Arial, sans-serif" }}>
+            Enter your name to save your result to the leaderboard so your friends can see!
+          </p>
+          <input
+            type="text"
+            placeholder="Your name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleSaveName()}
+            style={{
+              width: "100%",
+              padding: "16px",
+              borderRadius: "12px",
+              border: "1.5px solid #e8d5c4",
+              fontSize: "16px",
+              fontFamily: "Arial, sans-serif",
+              color: "#4a3728",
+              marginBottom: "12px",
+              boxSizing: "border-box",
+              outline: "none",
+            }}
+          />
+          <button
+            onClick={handleSaveName}
+            disabled={!name.trim() || saving}
+            style={{
+              width: "100%",
+              padding: "16px",
+              background: name.trim() ? `linear-gradient(135deg, ${accent}, #b07d5a)` : "#e8d5c4",
+              color: name.trim() ? "white" : "#c4a882",
+              border: "none",
+              borderRadius: "12px",
+              fontSize: "16px",
+              cursor: name.trim() ? "pointer" : "not-allowed",
+              fontFamily: "Arial, sans-serif",
+              marginBottom: "12px",
+            }}
+          >
+            {saving ? "Saving..." : "See My Results →"}
+          </button>
+          <button
+            onClick={() => setScreen("results")}
+            style={{
+              width: "100%",
+              padding: "12px",
+              background: "transparent",
+              color: "#c4a882",
+              border: "none",
+              fontSize: "14px",
+              cursor: "pointer",
+              fontFamily: "Arial, sans-serif",
+            }}
+          >
+            Skip
+          </button>
+        </div>
+      )}
+
       {screen === "results" && (
         <div style={{ ...cardStyle, maxWidth: "560px" }}>
           <div style={headerStyle}>☕ Basecamp Coffee</div>
@@ -261,7 +339,7 @@ export default function Home() {
             Here&apos;s how your answers broke down:
           </p>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: "16px", marginBottom: "32px" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: "16px", marginBottom: "24px" }}>
             {getResults().map(({ personality, pct }, index) => {
               const coffee = coffeeMap[personality];
               const isTop = index === 0;
@@ -289,12 +367,9 @@ export default function Home() {
                     </div>
                     <span style={{ fontFamily: "Georgia, serif", fontSize: "18px", color: accent, fontWeight: 600 }}>{pct}%</span>
                   </div>
-
-                  {/* Bar */}
                   <div style={{ height: "4px", background: "#f0e4d8", borderRadius: "4px", marginBottom: "8px" }}>
                     <div style={{ height: "100%", width: `${pct}%`, background: isTop ? `linear-gradient(90deg, ${accent}, #b07d5a)` : "#e8d5c4", borderRadius: "4px", transition: "width 0.5s ease" }} />
                   </div>
-
                   <p style={{ fontSize: "14px", color: "#7a5c44", fontFamily: "Arial, sans-serif", margin: 0 }}>
                     <strong>{coffee.drink}</strong> — {coffee.tagline}
                   </p>
@@ -302,6 +377,28 @@ export default function Home() {
               );
             })}
           </div>
+
+          <a
+            href="/leaderboard"
+            style={{
+              display: "block",
+              width: "100%",
+              padding: "16px",
+              background: "white",
+              color: accent,
+              border: `1.5px solid ${accent}`,
+              borderRadius: "12px",
+              fontSize: "16px",
+              cursor: "pointer",
+              fontFamily: "Arial, sans-serif",
+              textAlign: "center",
+              textDecoration: "none",
+              marginBottom: "12px",
+              boxSizing: "border-box",
+            }}
+          >
+            See the Leaderboard →
+          </a>
 
           <button
             onClick={handleRetake}
