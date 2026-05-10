@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Style 3: Bold & Dramatic</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Georgia', serif;
+    background: #0a0a0a;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .label {
+    position: fixed;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #222;
+    padding: 6px 20px;
+    border-radius: 20px;
+    font-size: 13px;
+    color: #ccc;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    font-family: sans-serif;
+  }
+  .card {
+    background: #141414;
+    border-radius: 2px;
+    padding: 52px 48px;
+    max-width: 540px;
+    width: 100%;
+    border: 1px solid #2a2a2a;
+  }
+  .tag {
+    display: inline-block;
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: #c9a96e;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  .progress {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 40px;
+  }
+  .seg {
+    height: 2px;
+    flex: 1;
+    background: #2a2a2a;
+  }
+  .seg.done { background: #c9a96e; }
+  h2 {
+    font-size: 26px;
+    color: #f0ede8;
+    font-weight: 400;
+    margin-bottom: 36px;
+    line-height: 1.4;
+    font-style: italic;
+  }
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .option {
+    padding: 18px 20px;
+    border: 1px solid #2a2a2a;
+    cursor: pointer;
+    font-size: 15px;
+    color: #888;
+    font-family: sans-serif;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .option:hover { border-color: #c9a96e; color: #ddd; }
+  .option.selected { border-color: #c9a96e; color: #f0ede8; background: rgba(201,169,110,0.08); }
+  .num { font-family: 'Courier New', monospace; font-size: 12px; color: #c9a96e; letter-spacing: 1px; }
+  .btn {
+    margin-top: 36px;
+    width: 100%;
+    padding: 18px;
+    background: transparent;
+    color: #c9a96e;
+    border: 1px solid #c9a96e;
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: sans-serif;
+    transition: all 0.2s;
+  }
+  .btn:hover { background: #c9a96e; color: #0a0a0a; }
+</style>
+</head>
+<body>
+<div class="label">Style 3: Bold & Dramatic</div>
+<div class="card">
+  <div class="tag">Question 01 / 05</div>
+  <div class="progress">
+    <div class="seg done"></div>
+    <div class="seg"></div>
+    <div class="seg"></div>
+    <div class="seg"></div>
+    <div class="seg"></div>
+  </div>
+  <h2>"It's Saturday morning. What are you doing?"</h2>
+  <div class="options">
+    <div class="option selected"><span class="num">01</span> Quiet meditation and journaling</div>
+    <div class="option"><span class="num">02</span> Early morning run or workout</div>
+    <div class="option"><span class="num">03</span> Cozy couch with a show</div>
+    <div class="option"><span class="num">04</span> Brunch with all my friends</div>
+  </div>
+  <button class="btn">Next Question</button>
+</div>
+</body>
+</html>

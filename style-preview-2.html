@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Style 2: Minimal & Clean</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background: #f8f8f6;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .label {
+    position: fixed;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff;
+    padding: 6px 20px;
+    border-radius: 20px;
+    font-size: 13px;
+    color: #333;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  .card {
+    background: white;
+    border-radius: 4px;
+    padding: 52px 48px;
+    max-width: 520px;
+    width: 100%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+  .step {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #999;
+    margin-bottom: 32px;
+  }
+  .progress-bar {
+    height: 2px;
+    background: #eee;
+    margin-bottom: 40px;
+    border-radius: 2px;
+  }
+  .progress-fill {
+    height: 100%;
+    width: 20%;
+    background: #111;
+    border-radius: 2px;
+  }
+  h2 {
+    font-size: 24px;
+    color: #111;
+    font-weight: 400;
+    margin-bottom: 36px;
+    line-height: 1.5;
+    letter-spacing: -0.3px;
+  }
+  .options { display: flex; flex-direction: column; gap: 8px; }
+  .option {
+    padding: 16px 0;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+    font-size: 15px;
+    color: #555;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: color 0.15s;
+  }
+  .option:hover { color: #111; }
+  .option.selected { color: #111; font-weight: 500; }
+  .option.selected::after { content: "✓"; color: #111; }
+  .btn {
+    margin-top: 40px;
+    padding: 14px 32px;
+    background: #111;
+    color: white;
+    border: none;
+    border-radius: 2px;
+    font-size: 14px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+<div class="label">Style 2: Minimal & Clean</div>
+<div class="card">
+  <div class="step">Question 1 of 5</div>
+  <div class="progress-bar"><div class="progress-fill"></div></div>
+  <h2>It's Saturday morning. What are you doing?</h2>
+  <div class="options">
+    <div class="option selected">Quiet meditation and journaling</div>
+    <div class="option">Early morning run or workout</div>
+    <div class="option">Cozy couch with a show</div>
+    <div class="option">Brunch with all my friends</div>
+  </div>
+  <button class="btn">Continue</button>
+</div>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Style 4: Warm & Cozy</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    background: linear-gradient(160deg, #f5e6d3, #ede0d4, #e8d5c4);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .label {
+    position: fixed;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff8f2;
+    padding: 6px 20px;
+    border-radius: 20px;
+    font-size: 13px;
+    color: #7a5c44;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    font-family: sans-serif;
+  }
+  .card {
+    background: #fffaf5;
+    border-radius: 20px;
+    padding: 44px 40px;
+    max-width: 520px;
+    width: 100%;
+    box-shadow: 0 8px 40px rgba(122,92,68,0.15);
+  }
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+  }
+  .brand {
+    font-size: 14px;
+    color: #b07d5a;
+    letter-spacing: 1px;
+    font-family: sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  .step-text { font-size: 13px; color: #c4a882; font-family: sans-serif; }
+  .progress-bar {
+    height: 4px;
+    background: #f0e4d8;
+    border-radius: 4px;
+    margin-bottom: 36px;
+  }
+  .progress-fill {
+    height: 100%;
+    width: 20%;
+    background: linear-gradient(90deg, #c4845a, #b07d5a);
+    border-radius: 4px;
+  }
+  h2 {
+    font-size: 22px;
+    color: #4a3728;
+    font-weight: 400;
+    margin-bottom: 28px;
+    line-height: 1.55;
+  }
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .option {
+    padding: 16px 20px;
+    border-radius: 12px;
+    border: 1.5px solid #e8d5c4;
+    cursor: pointer;
+    font-size: 15px;
+    color: #6b4c38;
+    font-family: sans-serif;
+    transition: all 0.2s;
+    background: white;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .option:hover { border-color: #c4845a; background: #fff5ee; }
+  .option.selected { border-color: #c4845a; background: #fff5ee; color: #4a3728; font-weight: 500; }
+  .dot {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    border: 1.5px solid #e8d5c4;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .option.selected .dot { border-color: #c4845a; background: #c4845a; }
+  .option.selected .dot::after { content: ""; width: 7px; height: 7px; border-radius: 50%; background: white; }
+  .btn {
+    margin-top: 28px;
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #c4845a, #b07d5a);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-family: sans-serif;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+  }
+</style>
+</head>
+<body>
+<div class="label">Style 4: Warm & Cozy</div>
+<div class="card">
+  <div class="header">
+    <div class="brand">☕ Basecamp Coffee</div>
+    <div class="step-text">1 of 5</div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill"></div></div>
+  <h2>It's Saturday morning. What are you doing?</h2>
+  <div class="options">
+    <div class="option selected"><div class="dot"></div> Quiet meditation and journaling</div>
+    <div class="option"><div class="dot"></div> Early morning run or workout</div>
+    <div class="option"><div class="dot"></div> Cozy couch with a show</div>
+    <div class="option"><div class="dot"></div> Brunch with all my friends</div>
+  </div>
+  <button class="btn">Next Question →</button>
+</div>
+</body>
+</html>

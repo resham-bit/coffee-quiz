@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Style 1: Playful & Colorful</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Comic Sans MS', 'Chalkboard SE', cursive;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4, #ffecd2);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .label {
+    position: fixed;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff;
+    padding: 6px 20px;
+    border-radius: 20px;
+    font-size: 13px;
+    color: #333;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    font-family: sans-serif;
+  }
+  .card {
+    background: white;
+    border-radius: 30px;
+    padding: 40px;
+    max-width: 520px;
+    width: 100%;
+    box-shadow: 8px 8px 0px #ff6b6b, 0 20px 60px rgba(255,107,107,0.2);
+    border: 3px solid #ff6b6b;
+  }
+  .emoji { font-size: 48px; text-align: center; margin-bottom: 16px; }
+  .progress {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 24px;
+  }
+  .dot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: #ffd6d6;
+  }
+  .dot.active { background: #ff6b6b; transform: scale(1.3); }
+  h2 {
+    font-size: 22px;
+    color: #333;
+    text-align: center;
+    margin-bottom: 28px;
+    line-height: 1.4;
+  }
+  .options { display: flex; flex-direction: column; gap: 12px; }
+  .option {
+    padding: 16px 20px;
+    border-radius: 20px;
+    border: 2.5px solid #ffd6d6;
+    cursor: pointer;
+    font-size: 16px;
+    color: #444;
+    transition: all 0.2s;
+    background: #fff9f9;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .option:hover { border-color: #ff6b6b; background: #fff0f0; transform: translateX(4px); }
+  .option.selected { border-color: #ff6b6b; background: #ff6b6b; color: white; }
+  .icon { font-size: 22px; }
+  .btn {
+    margin-top: 28px;
+    width: 100%;
+    padding: 16px;
+    background: #ff6b6b;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #e05555;
+  }
+</style>
+</head>
+<body>
+<div class="label">Style 1: Playful & Colorful</div>
+<div class="card">
+  <div class="emoji">☕</div>
+  <div class="progress">
+    <div class="dot active"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+  <h2>It's Saturday morning. What are you doing?</h2>
+  <div class="options">
+    <div class="option selected"><span class="icon">🧘</span> Quiet meditation and journaling</div>
+    <div class="option"><span class="icon">🏃</span> Early morning run or workout</div>
+    <div class="option"><span class="icon">🛋️</span> Cozy couch with a show</div>
+    <div class="option"><span class="icon">🎉</span> Brunch with all my friends</div>
+  </div>
+  <button class="btn">Next →</button>
+</div>
+</body>
+</html>
