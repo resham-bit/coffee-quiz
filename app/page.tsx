@@ -379,7 +379,7 @@ export default function Home() {
           </div>
 
           <a
-            href="/leaderboard"
+            href={`/leaderboard?personality=${encodeURIComponent(getResults()[0].personality)}`}
             style={{
               display: "block",
               width: "100%",

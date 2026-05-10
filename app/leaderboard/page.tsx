@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { supabase } from "../../lib/supabase";
 
 type Personality = "Sweet Enthusiast" | "Zen Minimalist" | "Health Nut" | "Indulgent Treat";
@@ -23,9 +24,11 @@ const personalityOrder: Personality[] = ["Sweet Enthusiast", "Zen Minimalist", "
 
 const accent = "#c4845a";
 
-export default function Leaderboard() {
+function LeaderboardContent() {
   const [results, setResults] = useState<Result[]>([]);
   const [loading, setLoading] = useState(true);
+  const searchParams = useSearchParams();
+  const myPersonality = searchParams.get("personality") as Personality | null;
 
   useEffect(() => {
     const fetchResults = async () => {
@@ -77,17 +80,18 @@ export default function Leaderboard() {
                   .map(({ personality, count }, index) => {
                     const coffee = coffeeMap[personality];
                     const pct = Math.round((count / results.length) * 100) || 0;
+                    const isHighlighted = myPersonality ? personality === myPersonality : index === 0 && count > 0;
                     return (
                       <div key={personality}>
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
                           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                             <span style={{ fontSize: "20px" }}>{coffee.emoji}</span>
-                            <span style={{ fontFamily: "Georgia, serif", fontSize: "16px", color: "#4a3728", fontWeight: index === 0 ? 600 : 400 }}>
+                            <span style={{ fontFamily: "Georgia, serif", fontSize: "16px", color: "#4a3728", fontWeight: isHighlighted ? 600 : 400 }}>
                               {personality}
                             </span>
-                            {index === 0 && count > 0 && (
+                            {isHighlighted && count > 0 && (
                               <span style={{ fontSize: "12px", background: accent, color: "white", padding: "2px 8px", borderRadius: "20px" }}>
-                                #1
+                                {myPersonality ? "Your Result" : "#1"}
                               </span>
                             )}
                           </div>
@@ -102,8 +106,8 @@ export default function Leaderboard() {
                                     width: "32px",
                                     height: "32px",
                                     borderRadius: "50%",
-                                    background: index === 0 ? `linear-gradient(135deg, ${accent}, #b07d5a)` : "#e8d5c4",
-                                    color: index === 0 ? "white" : "#7a5c44",
+                                    background: isHighlighted ? `linear-gradient(135deg, ${accent}, #b07d5a)` : "#e8d5c4",
+                                    color: isHighlighted ? "white" : "#7a5c44",
                                     display: "flex",
                                     alignItems: "center",
                                     justifyContent: "center",
@@ -122,7 +126,7 @@ export default function Leaderboard() {
                             style={{
                               height: "100%",
                               width: `${(count / maxCount) * 100}%`,
-                              background: index === 0 ? `linear-gradient(90deg, ${accent}, #b07d5a)` : "#e8d5c4",
+                              background: isHighlighted ? `linear-gradient(90deg, ${accent}, #b07d5a)` : "#e8d5c4",
                               borderRadius: "8px",
                               transition: "width 0.5s ease",
                             }}
@@ -193,5 +197,13 @@ export default function Leaderboard() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function Leaderboard() {
+  return (
+    <Suspense>
+      <LeaderboardContent />
+    </Suspense>
   );
 }
