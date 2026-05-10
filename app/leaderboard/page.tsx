@@ -27,15 +27,12 @@ export default function Leaderboard() {
   const [results, setResults] = useState<Result[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const [error, setError] = useState<string | null>(null);
-
   useEffect(() => {
     const fetchResults = async () => {
-      const { data, error } = await supabase
+      const { data } = await supabase
         .from("results")
         .select("*")
         .order("created_at", { ascending: false });
-      if (error) setError(error.message);
       setResults(data || []);
       setLoading(false);
     };
@@ -64,10 +61,6 @@ export default function Leaderboard() {
             {results.length} {results.length === 1 ? "person has" : "people have"} taken the quiz
           </p>
         </div>
-
-        {error && (
-          <p style={{ textAlign: "center", color: "red", fontSize: "14px" }}>Error: {error}</p>
-        )}
 
         {loading ? (
           <p style={{ textAlign: "center", color: "#7a5c44" }}>Loading...</p>
